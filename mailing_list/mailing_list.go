@@ -31,20 +31,14 @@ func (c client) GetAllActiveMailingLists(format commons.Format, withStatistics b
 	}
 
 	var response GetAllActiveMailingListResponse
-	if resp.StatusCode != http.StatusOK {
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
-			return
-		}
-
-		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
-		return
-	}
-
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
 		return
 	}
 

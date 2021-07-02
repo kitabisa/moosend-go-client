@@ -32,20 +32,14 @@ func (c client) GetSubsriberByEmail(format commons.Format, mailingListID, email 
 	}
 
 	var response Response
-	if resp.StatusCode != http.StatusOK {
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
-			return
-		}
-
-		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
-		return
-	}
-
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
 		return
 	}
 
@@ -63,20 +57,14 @@ func (c client) GetSubscriberByID(format commons.Format, mailingListID, id strin
 	}
 
 	var response Response
-	if resp.StatusCode != http.StatusOK {
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
-			return
-		}
-
-		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
-		return
-	}
-
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
 		return
 	}
 
@@ -100,20 +88,14 @@ func (c client) AddSubscriber(format commons.Format, mailingListID string, reque
 	}
 
 	var response Response
-	if resp.StatusCode != http.StatusOK {
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
-			return
-		}
-
-		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
-		return
-	}
-
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
 		return
 	}
 
@@ -137,20 +119,14 @@ func (c client) UpdateSubscriber(format commons.Format, mailingListID, subscribe
 	}
 
 	var response Response
-	if resp.StatusCode != http.StatusOK {
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
-			return
-		}
-
-		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
-		return
-	}
-
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
 		return
 	}
 
@@ -174,20 +150,14 @@ func (c client) UnsubscribeFromAccount(format commons.Format, request Unsubscrib
 	}
 
 	var response Response
-	if resp.StatusCode != http.StatusOK {
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
-			return
-		}
-
-		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
-		return
-	}
-
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
 		return
 	}
 
@@ -209,20 +179,14 @@ func (c client) UnsubscribeFromMailingList(format commons.Format, mailingListID 
 	}
 
 	var response Response
-	if resp.StatusCode != http.StatusOK {
-		err = json.Unmarshal(body, &response)
-		if err != nil {
-			err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
-			return
-		}
-
-		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
-		return
-	}
-
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
 		return
 	}
 

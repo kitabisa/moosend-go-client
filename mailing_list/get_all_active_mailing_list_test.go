@@ -9,21 +9,20 @@ import (
 	"net/http/httptest"
 )
 
-func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusNotOK_UnmarshalError() {
+func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_UnmarshalError() {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprint(w, `{"message": "Publish finished successfully"}`)
+		fmt.Fprint(w, `{"Code": "0"}`)
 	}))
 	defer ts.Close()
 
 	client := NewClient(ts.URL, uuid.NewV4().String(), t.HTTPClient)
 	_, err := client.GetAllActiveMailingLists(commons.JSON, false, CreatedOn, ASC)
 
-	fmt.Println(err)
 	assert.NotNil(t.T(), err)
 }
 
-func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusNotOK_UnmarshalSuccess() {
+func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusNotOK() {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		body := `{
@@ -41,20 +40,7 @@ func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusNotOK_U
 	assert.NotNil(t.T(), err)
 }
 
-func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusOK_UnmarshalError() {
-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprint(w, `{"Code": "0"}`)
-	}))
-	defer ts.Close()
-
-	client := NewClient(ts.URL, uuid.NewV4().String(), t.HTTPClient)
-	_, err := client.GetAllActiveMailingLists(commons.JSON, false, CreatedOn, ASC)
-
-	assert.NotNil(t.T(), err)
-}
-
-func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusOK_UnmarshalSuccess() {
+func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusOK() {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		body := `{
