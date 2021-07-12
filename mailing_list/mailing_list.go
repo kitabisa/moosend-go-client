@@ -3,21 +3,22 @@ package mailing_list
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+
 	"github.com/kitabisa/moosend-go-client/commons"
 	"github.com/kitabisa/perkakas/v2/httpclient"
-	"net/http"
 )
 
 type client struct {
-	BaseURL string
-	APIKey string
+	BaseURL    string
+	APIKey     string
 	HTTPClient *httpclient.HttpClient
 }
 
 func NewClient(baseUrl, apiKey string, httpClient *httpclient.HttpClient) Client {
 	return &client{
-		BaseURL: baseUrl,
-		APIKey: apiKey,
+		BaseURL:    baseUrl,
+		APIKey:     apiKey,
 		HTTPClient: httpClient,
 	}
 }
@@ -38,7 +39,7 @@ func (c client) GetAllActiveMailingLists(format commons.Format, withStatistics b
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, response.Error)
+		err = fmt.Errorf(response.Error)
 		return
 	}
 
@@ -46,5 +47,3 @@ func (c client) GetAllActiveMailingLists(format commons.Format, withStatistics b
 
 	return
 }
-
-
