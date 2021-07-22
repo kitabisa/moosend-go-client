@@ -2,6 +2,7 @@ package mailing_list
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -39,7 +40,12 @@ func (c client) GetAllActiveMailingLists(format commons.Format, withStatistics b
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		err = fmt.Errorf(response.Error)
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, "Unknown error")
+		return
+	}
+
+	if response.Code != 0 {
+		err = errors.New(response.Error)
 		return
 	}
 

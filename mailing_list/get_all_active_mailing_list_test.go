@@ -22,9 +22,22 @@ func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_UnmarshalErro
 	assert.NotNil(t.T(), err)
 }
 
-func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusNotOK() {
+func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_HttpStatusNotOK() {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprint(w, `{"Code": 100}`)
+	}))
+	defer ts.Close()
+
+	client := NewClient(ts.URL, uuid.NewV4().String(), t.HTTPClient)
+	_, err := client.GetAllActiveMailingLists(commons.JSON, false, CreatedOn, ASC)
+
+	assert.NotNil(t.T(), err)
+}
+
+func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_CodeNotOK() {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
 		body := `{
 					"Code": 100,
 					"Error": "USER_NOT_FOUND",
@@ -40,7 +53,7 @@ func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusNotOK()
 	assert.NotNil(t.T(), err)
 }
 
-func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_StatusOK() {
+func (t *MailingListTestSuite) TestClient_GetAllActiveMailingLists_CodeOK() {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		body := `{

@@ -3,6 +3,7 @@ package subscriber
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -40,7 +41,12 @@ func (c client) GetSubsriberByEmail(format commons.Format, mailingListID, email 
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		err = fmt.Errorf(response.Error)
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, "Unknown error")
+		return
+	}
+
+	if response.Code != 0 {
+		err = errors.New(response.Error)
 		return
 	}
 
@@ -65,7 +71,12 @@ func (c client) GetSubscriberByID(format commons.Format, mailingListID, id strin
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		err = fmt.Errorf(response.Error)
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, "Unknown error")
+		return
+	}
+
+	if response.Code != 0 {
+		err = errors.New(response.Error)
 		return
 	}
 
@@ -82,6 +93,8 @@ func (c client) AddSubscriber(format commons.Format, mailingListID string, reque
 	}
 
 	url := fmt.Sprintf("%s/subscribers/%s/subscribe.%s?apikey=%s", c.BaseURL, mailingListID, format, c.APIKey)
+	fmt.Printf("ini url %s\n", url)
+	fmt.Printf("ini request %v\n", request)
 	resp, body, err := commons.MakeRequest(c.HTTPClient, http.MethodPost, url, bytes.NewReader(payload))
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %s", err.Error())
@@ -96,7 +109,12 @@ func (c client) AddSubscriber(format commons.Format, mailingListID string, reque
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		err = fmt.Errorf(response.Error)
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, "Unknown error")
+		return
+	}
+
+	if response.Code != 0 {
+		err = errors.New(response.Error)
 		return
 	}
 
@@ -127,7 +145,12 @@ func (c client) UpdateSubscriber(format commons.Format, mailingListID, subscribe
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		err = fmt.Errorf(response.Error)
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, "Unknown error")
+		return
+	}
+
+	if response.Code != 0 {
+		err = errors.New(response.Error)
 		return
 	}
 
@@ -158,7 +181,12 @@ func (c client) UnsubscribeFromAccount(format commons.Format, request Unsubscrib
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		err = fmt.Errorf(response.Error)
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, "Unknown error")
+		return
+	}
+
+	if response.Code != 0 {
+		err = errors.New(response.Error)
 		return
 	}
 
@@ -187,7 +215,12 @@ func (c client) UnsubscribeFromMailingList(format commons.Format, mailingListID 
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		err = fmt.Errorf(response.Error)
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, "Unknown error")
+		return
+	}
+
+	if response.Code != 0 {
+		err = errors.New(response.Error)
 		return
 	}
 

@@ -22,9 +22,22 @@ func (t *SubscriberTestSuite) TestClient_GetSubscriberByID_UnmarshalError() {
 	assert.NotNil(t.T(), err)
 }
 
-func (t *SubscriberTestSuite) TestClient_GetSubscriberByID_StatusNotOK() {
+func (t *SubscriberTestSuite) TestClient_GetSubscriberByID_HttpStatusNotOK() {
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprint(w, `{"code": 0}`)
+	}))
+	defer ts.Close()
+
+	client := NewClient(ts.URL, uuid.NewV4().String(), t.HTTPClient)
+	_, err := client.GetSubscriberByID(commons.JSON, uuid.NewV4().String(), uuid.NewV4().String())
+
+	assert.NotNil(t.T(), err)
+}
+
+func (t *SubscriberTestSuite) TestClient_GetSubscriberByID_CodeNotOK() {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
 		body := `{
 					"Code": 100,
 					"Error": "USER_NOT_FOUND",
@@ -40,7 +53,7 @@ func (t *SubscriberTestSuite) TestClient_GetSubscriberByID_StatusNotOK() {
 	assert.NotNil(t.T(), err)
 }
 
-func (t *SubscriberTestSuite) TestClient_GetSubscriberByID_StatusOK() {
+func (t *SubscriberTestSuite) TestClient_GetSubscriberByID_CodeOK() {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
