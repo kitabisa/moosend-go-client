@@ -33,7 +33,7 @@ type UnsubscribeRequest struct {
 
 
 type Response struct {
-	Code     float64    `json:"Code,omitempty"`
-	Context Subscriber `json:"Context,omitempty"`
-	Error    string     `json:"Error,omitempty"`
+	Code     float64    	`json:"Code,omitempty"`
+	Context  []Subscriber 	`json:"Context,omitempty"`
+	Error    string     	`json:"Error,omitempty"`
 }

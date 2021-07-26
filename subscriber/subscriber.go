@@ -51,7 +51,7 @@ func (c client) GetSubsriberByEmail(format commons.Format, mailingListID, email 
 		return
 	}
 
-	returnData = response.Context
+	returnData = response.Context[0]
 
 	return
 }
@@ -81,7 +81,7 @@ func (c client) GetSubscriberByID(format commons.Format, mailingListID, id strin
 		return
 	}
 
-	returnData = response.Context
+	returnData = response.Context[0]
 
 	return
 }
@@ -94,6 +94,40 @@ func (c client) AddSubscriber(format commons.Format, mailingListID string, reque
 	}
 
 	apiUrl := fmt.Sprintf("%s/subscribers/%s/subscribe.%s?apikey=%s", c.BaseURL, mailingListID, format, c.APIKey)
+	resp, body, err := commons.MakeRequest(c.HTTPClient, http.MethodPost, apiUrl, bytes.NewReader(payload))
+	if err != nil {
+		err = fmt.Errorf("[moosend-client] %s", err.Error())
+		return
+	}
+
+	var response Response
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, "Unknown error")
+		return
+	}
+
+	if response.Code != 0 {
+		err = errors.New(response.Error)
+		return
+	}
+
+	returnData = response.Context[0]
+	return
+}
+
+func (c client) AddMultipleSubscriber(format commons.Format, mailingListID string, request SubscribeRequest) (returnData []Subscriber, err error) {
+	payload, err := json.Marshal(request)
+	if err != nil {
+		err = fmt.Errorf("[moosend-client] %s", err.Error())
+	}
+
+	apiUrl := fmt.Sprintf("%s/subscribers/%s/subscribe_many.%s?apikey=%s", c.BaseURL, mailingListID, format, c.APIKey)
 	resp, body, err := commons.MakeRequest(c.HTTPClient, http.MethodPost, apiUrl, bytes.NewReader(payload))
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %s", err.Error())
@@ -153,7 +187,7 @@ func (c client) UpdateSubscriber(format commons.Format, mailingListID, subscribe
 		return
 	}
 
-	returnData = response.Context
+	returnData = response.Context[0]
 
 	return
 }
