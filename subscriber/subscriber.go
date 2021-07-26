@@ -134,7 +134,7 @@ func (c client) AddMultipleSubscriber(format commons.Format, mailingListID strin
 		return
 	}
 
-	var response AddMultipeSubsResponse
+	var response AddMultipleSubsResponse
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())

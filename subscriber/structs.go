@@ -38,7 +38,7 @@ type Response struct {
 	Error    string     	`json:"Error,omitempty"`
 }
 
-type AddMultipeSubsResponse struct {
+type AddMultipleSubsResponse struct {
 	Code     float64    	`json:"Code,omitempty"`
 	Context  []Subscriber 	`json:"Context,omitempty"`
 	Error    string     	`json:"Error,omitempty"`
