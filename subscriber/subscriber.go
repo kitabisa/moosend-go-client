@@ -51,7 +51,7 @@ func (c client) GetSubsriberByEmail(format commons.Format, mailingListID, email 
 		return
 	}
 
-	returnData = response.Context[0]
+	returnData = response.Context
 
 	return
 }
@@ -81,7 +81,7 @@ func (c client) GetSubscriberByID(format commons.Format, mailingListID, id strin
 		return
 	}
 
-	returnData = response.Context[0]
+	returnData = response.Context
 
 	return
 }
@@ -117,7 +117,7 @@ func (c client) AddSubscriber(format commons.Format, mailingListID string, reque
 		return
 	}
 
-	returnData = response.Context[0]
+	returnData = response.Context
 	return
 }
 
@@ -134,7 +134,7 @@ func (c client) AddMultipleSubscriber(format commons.Format, mailingListID strin
 		return
 	}
 
-	var response Response
+	var response AddMultipeSubsResponse
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %d:%s", resp.StatusCode, err.Error())
@@ -187,7 +187,7 @@ func (c client) UpdateSubscriber(format commons.Format, mailingListID, subscribe
 		return
 	}
 
-	returnData = response.Context[0]
+	returnData = response.Context
 
 	return
 }
