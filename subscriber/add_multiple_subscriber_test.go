@@ -17,7 +17,7 @@ func (t *SubscriberTestSuite) TestClient_Add_Multiple_Subscriber_UnmarshalError(
 	defer ts.Close()
 
 	client := NewClient(ts.URL, uuid.NewV4().String(), t.HTTPClient)
-	_, err := client.AddMultipleSubscriber(commons.JSON, uuid.NewV4().String(), SubscribeRequest{})
+	_, err := client.AddMultipleSubscriber(commons.JSON, uuid.NewV4().String(), AddMultipleSubsRequest{})
 
 	assert.NotNil(t.T(), err)
 }
@@ -30,7 +30,7 @@ func (t *SubscriberTestSuite) TestClient_Add_Multiple_Subscriber_HttpStatusNotOK
 	defer ts.Close()
 
 	client := NewClient(ts.URL, uuid.NewV4().String(), t.HTTPClient)
-	_, err := client.AddMultipleSubscriber(commons.JSON, uuid.NewV4().String(), SubscribeRequest{})
+	_, err := client.AddMultipleSubscriber(commons.JSON, uuid.NewV4().String(), AddMultipleSubsRequest{})
 
 	assert.NotNil(t.T(), err)
 }
@@ -48,7 +48,7 @@ func (t *SubscriberTestSuite) TestClient_Add_Multiple_Subscriber_CodeNotOK() {
 	defer ts.Close()
 
 	client := NewClient(ts.URL, uuid.NewV4().String(), t.HTTPClient)
-	_, err := client.AddMultipleSubscriber(commons.JSON, uuid.NewV4().String(), SubscribeRequest{})
+	_, err := client.AddMultipleSubscriber(commons.JSON, uuid.NewV4().String(), AddMultipleSubsRequest{})
 
 	assert.NotNil(t.T(), err)
 }
@@ -110,7 +110,7 @@ func (t *SubscriberTestSuite) TestClient_Add_Multiple_Subscriber_CodeOK() {
 	defer ts.Close()
 
 	client := NewClient(ts.URL, uuid.NewV4().String(), t.HTTPClient)
-	_, err := client.AddMultipleSubscriber(commons.JSON, uuid.NewV4().String(), SubscribeRequest{})
+	_, err := client.AddMultipleSubscriber(commons.JSON, uuid.NewV4().String(), AddMultipleSubsRequest{})
 
 	assert.Nil(t.T(), err)
 }

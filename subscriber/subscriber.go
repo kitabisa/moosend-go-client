@@ -121,7 +121,7 @@ func (c client) AddSubscriber(format commons.Format, mailingListID string, reque
 	return
 }
 
-func (c client) AddMultipleSubscriber(format commons.Format, mailingListID string, request SubscribeRequest) (returnData []Subscriber, err error) {
+func (c client) AddMultipleSubscriber(format commons.Format, mailingListID string, request AddMultipleSubsRequest) (returnData []Subscriber, err error) {
 	payload, err := json.Marshal(request)
 	if err != nil {
 		err = fmt.Errorf("[moosend-client] %s", err.Error())

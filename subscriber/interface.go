@@ -23,7 +23,7 @@ type Client interface {
 	AddMultipleSubscriber(
 		format commons.Format,
 		mailingListID string,
-		request SubscribeRequest) (returnData []Subscriber, err error)
+		request AddMultipleSubsRequest) (returnData []Subscriber, err error)
 	UnsubscribeFromAccount(format commons.Format, request UnsubscribeRequest) (err error)
 	UnsubscribeFromMailingList(format commons.Format, mailingListID string, request UnsubscribeRequest) (err error)
 }

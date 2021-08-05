@@ -27,10 +27,20 @@ type SubscribeRequest struct {
 	CustomFields           []string `json:"CustomFields,omitempty"`
 }
 
+type Subscribers struct {
+	Email           string   `json:"Email"`
+	Name            string   `json:"Name,omitempty"`
+	CustomFields	[]string `json:"CustomFields,omitempty"`
+}
+
+type AddMultipleSubsRequest struct {
+	HasExternalDoubleOptIn bool     	 `json:"HasExternalDoubleOptIn,omitempty"`
+	Subscribers			   []Subscribers `json:"Subscribers,omitempty"`
+}
+
 type UnsubscribeRequest struct {
 	Email string `json:"Email"`
 }
-
 
 type Response struct {
 	Code     float64    	`json:"Code,omitempty"`
