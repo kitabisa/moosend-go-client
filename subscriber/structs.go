@@ -1,5 +1,11 @@
 package subscriber
 
+import (
+	"database/sql/driver"
+	"encoding/json"
+	"errors"
+)
+
 type CustomField struct {
 	CustomFieldID string `json:"CustomFieldID,omitempty"`
 	Name          string `json:"Name,omitempty"`
@@ -25,6 +31,19 @@ type SubscribeRequest struct {
 	Name                   string   `json:"Name,omitempty"`
 	HasExternalDoubleOptIn bool     `json:"HasExternalDoubleOptIn,omitempty"`
 	CustomFields           []string `json:"CustomFields,omitempty"`
+}
+
+func (subsReq SubscribeRequest) Value() (driver.Value, error) {
+	return json.Marshal(subsReq)
+}
+
+func (subsReq *SubscribeRequest) Scan(value interface{}) error {
+	result, ok := value.([]byte)
+	if !ok {
+		return errors.New("type assertion to []byte failed")
+	}
+
+	return json.Unmarshal(result, &subsReq)
 }
 
 type Subscribers struct {
